@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    build: ./db
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
