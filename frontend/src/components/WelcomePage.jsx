@@ -14,8 +14,8 @@ const TokyoCalling = ({
                               },
                               {
                                   id: 1,
-                                  title: 'BNHA',
-                                  fullTitle: 'BOKU NO\nHERO ACADEMIA',
+                                  title: 'MHA',
+                                  fullTitle: 'MY HERO\nACADEMIA',
                                   imageUrl: 'https://image.noelshack.com/fichiers/2025/07/3/1739372767-35-strongest-my-hero-academia-characters-ranked-2021-updated-1.png',
                                   backgroundUrl: 'https://image.noelshack.com/fichiers/2025/07/4/1739435821-wallpaperflare-4.jpg',
                                   videoUrl: "https://streamingcrossguild.s3.eu-north-1.amazonaws.com/My+Hero+Academia+-+Official+Opening.mp4",
