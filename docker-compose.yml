@@ -1,38 +1,51 @@
 version: '3.8'
-
 services:
   db:
     image: postgres:13
     environment:
-      - POSTGRES_DB=mydatabase
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
 
   backend:
     build: ./backend
     ports:
       - "5000:5000"
     environment:
-      - FLASK_APP=app/__init__.py
+      - DATABASE_URL=postgresql://user:password@db:5432/mydatabase
       - FLASK_ENV=development
-    depends_on:
-      - db
+      - FLASK_APP=app/__init__.py
+      - FLASK_RUN_HOST=0.0.0.0
     volumes:
       - ./backend:/app
+    networks:
+      - app_network
+    depends_on:
+      - db
 
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://host.docker.internal:5000/api
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    depends_on:
-      - backend
+    networks:
+      - app_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+networks:
+  app_network:
+    driver: bridge
 
 volumes:
   postgres_data:
